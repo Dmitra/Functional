@@ -3,13 +3,13 @@ var Functional = Functional || {}
 /*
  * Linear recursion
  */
-var linearRecursion = function(cond, then, before, after){
-  var cond   = cond.lambda()
+Functional.linearRecursion = function(condition, then, before, after){
+  var condition   = condition.lambda()
     , then   = then.lambda()
     , before = before.lambda()
     , after  = after.lambda();
   return function(){
-    if(cond(arguments[0])){
+    if(condition(arguments[0])){
         return then(arguments[0]);
     }
     var args = before(arguments[0]);
@@ -21,14 +21,14 @@ var linearRecursion = function(cond, then, before, after){
 /*
  * Self call is the last operation
  */
-var tailLinearRecursion = function(cond, then, before, after){
-  var cond   = cond.lambda()
+Functional.tailLinearRecursion = function(condition, then, before, after){
+  var condition   = condition.lambda()
     , then   = then.lambda()
     , before = before.lambda()
     //, after  = after.lambda();
   return function(){
     var args = arguments;
-    if(cond(args)){
+    if(condition(args)){
         return then(args);
     }
     var args = before(args);
@@ -39,14 +39,14 @@ var tailLinearRecursion = function(cond, then, before, after){
 /*
  * Tail recursion replacement with "for" loop
  */
-var loop = function(cond, then, before, after){
-  var cond   = cond.lambda()
+Functional.loop = function(condition, then, before, after){
+  var condition   = condition.lambda()
     , then   = then.lambda()
     , before = before.lambda()
     //, after  = after.lambda();
   return function(){
     var args = arguments[0];
-    while(!cond(args)){
+    while(!condition(args)){
       args = before(args);
     }
     return then(args);
@@ -57,14 +57,14 @@ var loop = function(cond, then, before, after){
  * Parallel recursion
  * Same as linear but for nodes which can be an array (former tree)
  */
-var treeRecursion = function(condition, then, before, after){
-  var cond   = cond.lambda()
+Functional.treeRecursion = function(condition, then, before, after){
+  var condition   = condition.lambda()
     , then   = then.lambda()
     , before = before.lambda()
     , after  = after.lambda();
   return function(){
     debugger
-    if(cond(arguments[0])){
+    if(condition(arguments[0])){
         return then(arguments[0]);
     }
     var args = before(arguments[0])
@@ -86,7 +86,7 @@ var treeRecursion = function(condition, then, before, after){
  * should return item
  * @returns changed tree
  */
-var processTree = function(children, condition, process){
+Functional.processTree = function(children, condition, process){
   return function(item){
     var items = item[children];
     if(items){
