@@ -48,9 +48,9 @@ var loop = function(cond, then, before, after){
 		var args = arguments[0];
 		while(!cond(args)){
 			args = before(args);
-		}
-		return then(args);
-	};
+    }
+    return then(args);
+  };
 };
 
 /*
@@ -58,22 +58,22 @@ var loop = function(cond, then, before, after){
  * Same as linear but for nodes which can be an array (former tree)
  */
 var treeRecursion = function(condition, then, before, after){
-	var cond   = cond.lambda()
-		, then   = then.lambda()
-		, before = before.lambda()
-		, after  = after.lambda();
-	return function(){
-		debugger
-		if(cond(arguments[0])){
-				return then(arguments[0]);
-		}
-		var args = before(arguments[0])
-			, result  = new Array(args.length);
-		for(var i = 0; i < args.length; ++i){
-				result[i] = arguments.callee(args[i]);
-		}
-		return after(result, arguments[0]);
-	};
+  var cond   = cond.lambda()
+    , then   = then.lambda()
+    , before = before.lambda()
+    , after  = after.lambda();
+  return function(){
+    debugger
+    if(cond(arguments[0])){
+        return then(arguments[0]);
+    }
+    var args = before(arguments[0])
+      , result  = new Array(args.length);
+    for(var i = 0; i < args.length; ++i){
+        result[i] = arguments.callee(args[i]);
+    }
+    return after(result, arguments[0]);
+  };
 };
 
 /*
@@ -87,17 +87,17 @@ var treeRecursion = function(condition, then, before, after){
  * @returns changed tree
  */
 var processTree = function(children, condition, process){
-	return function(item){
-		var items = item[children];
-		if(items){
-			for(var i = 0; i < items.length; i++){
-				items[i] = arguments.callee(items[i]);
-			}
-		}
-		if (condition(item)){
-			return process(item);
-		}else{
-			return(item)
-		}
-	};
+  return function(item){
+    var items = item[children];
+    if(items){
+      for(var i = 0; i < items.length; i++){
+        items[i] = arguments.callee(items[i]);
+      }
+    }
+    if (condition(item)){
+      return process(item);
+    }else{
+      return(item)
+    }
+  };
 };
