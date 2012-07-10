@@ -22,32 +22,32 @@ var linearRecursion = function(cond, then, before, after){
  * Self call is the last operation
  */
 var tailLinearRecursion = function(cond, then, before, after){
-	var cond   = cond.lambda()
-		, then   = then.lambda()
-		, before = before.lambda()
-		//, after  = after.lambda();
-	return function(){
-		var args = arguments;
-		if(cond(args)){
-				return then(args);
-		}
-		var args = before(args);
-		return arguments.callee(args);
-	};
+  var cond   = cond.lambda()
+    , then   = then.lambda()
+    , before = before.lambda()
+    //, after  = after.lambda();
+  return function(){
+    var args = arguments;
+    if(cond(args)){
+        return then(args);
+    }
+    var args = before(args);
+    return arguments.callee(args);
+  };
 };
 
 /*
  * Tail recursion replacement with "for" loop
  */
 var loop = function(cond, then, before, after){
-	var cond   = cond.lambda()
-		, then   = then.lambda()
-		, before = before.lambda()
-		//, after  = after.lambda();
-	return function(){
-		var args = arguments[0];
-		while(!cond(args)){
-			args = before(args);
+  var cond   = cond.lambda()
+    , then   = then.lambda()
+    , before = before.lambda()
+    //, after  = after.lambda();
+  return function(){
+    var args = arguments[0];
+    while(!cond(args)){
+      args = before(args);
     }
     return then(args);
   };
