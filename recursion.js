@@ -4,18 +4,18 @@ var Functional = Functional || {}
  * Linear recursion
  */
 var linearRecursion = function(cond, then, before, after){
-	var cond   = cond.lambda()
-		, then   = then.lambda()
-		, before = before.lambda()
-		, after  = after.lambda();
-	return function(){
-		if(cond(arguments[0])){
-				return then(arguments[0]);
-		}
-		var args = before(arguments[0]);
-		var result  = arguments.callee(args);
-		return after(result, arguments[0]);
-	};
+  var cond   = cond.lambda()
+    , then   = then.lambda()
+    , before = before.lambda()
+    , after  = after.lambda();
+  return function(){
+    if(cond(arguments[0])){
+        return then(arguments[0]);
+    }
+    var args = before(arguments[0]);
+    var result  = arguments.callee(args);
+    return after(result, arguments[0]);
+  };
 };
 
 /*
